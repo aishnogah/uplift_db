@@ -10,9 +10,9 @@
 #include "rocksdb/statistics.h"
 #include "rocksdb/perf_context.h"
 #include "rocksdb/utilities/spatial_db.h"
-#include "statistics.h"
-#include "env.h"
-#include "perf_context.h"
+#include "rocksdb/statistics.h"
+#include "rocksdb/env.h"
+#include "rocksdb/perf_context.h"
 
 
 using namespace rocksdb;
