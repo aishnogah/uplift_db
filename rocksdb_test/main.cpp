@@ -2,7 +2,6 @@
 #include <string>
 #include <random>
 #include <iostream>
-#include <algorithm>
 
 #include "rocksdb/db.h"
 #include "rocksdb/slice.h"
@@ -10,9 +9,7 @@
 #include "rocksdb/statistics.h"
 #include "rocksdb/perf_context.h"
 #include "rocksdb/utilities/spatial_db.h"
-#include "rocksdb/statistics.h"
 #include "rocksdb/env.h"
-#include "rocksdb/perf_context.h"
 
 
 using namespace rocksdb;
@@ -80,13 +77,13 @@ int main(int argc, char** argv) {
       exit(1);
     }
 
+
   }
+
 
   DestroyDB(kDBPath, Options());
 
   const BoundingBox<double> outer_box(0, 0, 100, 100);
-  vector<SpatialIndexOptions> spatial_indexes;
-  vector<std::string> si_names;
 
   SpatialDBOptions options;
   DBOptions db_options = GetDBOptions(options);
