@@ -23,8 +23,8 @@ using std::vector;
 using std::cout;
 using std::endl;
 
-std::string kDBPath = "/Volumes/RAM Disk/db";
-uint32_t kN = 1000000;
+std::string kDBPath;
+uint32_t kN = 10;
 uint32_t kZoomLevels = 10;
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -67,7 +67,21 @@ DBOptions GetDBOptions(const SpatialDBOptions& options) {
   return db_options;
 }
 
-int main() {
+int main(int argc, char** argv) {
+
+  for (int i=1; i<argc; ++i) {
+    if (strncmp(argv[i], "--db=", 5) == 0) {
+      kDBPath = argv[i] + 5;
+    }
+    else if (strncmp(argv[i], "--n=", 4) == 0) {
+      kN = atoi(argv[i] + 4);
+    }
+    else {
+      exit(1);
+    }
+
+  }
+
   DestroyDB(kDBPath, Options());
 
   const BoundingBox<double> outer_box(0, 0, 100, 100);
