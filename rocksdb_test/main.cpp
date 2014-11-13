@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
   db_options.allow_mmap_writes = true;
   db_options.allow_mmap_reads = true;
 
-//  SetPerfLevel(kEnableTime);
+  SetPerfLevel(kEnableTime);
 
   rocksdb::Status s = SpatialDB::Create(db_options, kDBPath, outer_box, kZoomLevels, kRamDisk);
   cout << s.ToString() << endl;
