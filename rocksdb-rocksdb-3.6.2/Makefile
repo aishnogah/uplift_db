@@ -18,6 +18,24 @@ TOOLS = sst_dump ldb
 
 PROGRAMS = ben $(TOOLS)
 
+LIBRARY = librocksdb.a
+MEMENVLIBRARY = libmemenv.a
+
+ROCKSDB_MAJOR = $(shell egrep "ROCKSDB_MAJOR.[0-9]" include/rocksdb/version.h | cut -d ' ' -f 3)
+ROCKSDB_MINOR = $(shell egrep "ROCKSDB_MINOR.[0-9]" include/rocksdb/version.h | cut -d ' ' -f 3)
+ROCKSDB_PATCH = $(shell egrep "ROCKSDB_PATCH.[0-9]" include/rocksdb/version.h | cut -d ' ' -f 3)
+
+default: all
+
+
+.PHONY: blackbox_crash_test check clean coverage crash_test ldb_tests package \
+	release tags valgrind_check whitebox_crash_test format static_lib shared_lib all \
+	dbg rocksdbjavastatic rocksdbjava install uninstall
+
+all: $(LIBRARY) $(PROGRAMS) $(TESTS)
+
+static_lib: $(LIBRARY)
+
 sst_dump: tools/sst_dump.o $(LIBOBJECTS)
 	$(CXX) tools/sst_dump.o $(LIBOBJECTS) $(EXEC_LDFLAGS) -o $@ $(LDFLAGS) $(COVERAGEFLAGS)
 
