@@ -24,6 +24,7 @@ build_config.mk
 .clang-format
 .travis.yml
 
+ben
 ldb
 manifest_dump
 sst_dump
