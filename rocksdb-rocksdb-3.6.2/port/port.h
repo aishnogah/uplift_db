@@ -13,7 +13,7 @@
 #include <string.h>
 
 //Ben added this
-#define ROCKSDB_PLATFORM_POSIX
+// #define ROCKSDB_PLATFORM_POSIX
 
 // Include the appropriate platform specific file below.  If you are
 // porting to a new platform, see "port_example.h" for documentation
