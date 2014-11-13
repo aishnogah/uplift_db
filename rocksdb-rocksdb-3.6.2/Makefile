@@ -48,6 +48,10 @@ clean:
 	-find . -type f -regex ".*\.\(\(gcda\)\|\(gcno\)\)" -exec rm {} \;
 	-rm -rf bzip2* snappy* zlib*
 
+$(LIBRARY): $(LIBOBJECTS)
+	rm -f $@
+	$(AR) -rs $@ $(LIBOBJECTS)
+	
 .cc.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(COVERAGEFLAGS)
 
