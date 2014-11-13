@@ -20,7 +20,6 @@
 
 #include "rocksdb/write_batch.h"
 #include "port/port.h"
-#include "port_posix.h"
 
 namespace rocksdb {
 
