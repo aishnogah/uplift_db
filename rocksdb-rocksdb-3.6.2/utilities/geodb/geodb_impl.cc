@@ -17,7 +17,6 @@
 #include <limits>
 #include "db/filename.h"
 #include "util/coding.h"
-#include "status.h"
 #import "geo_db.h"
 #import "geodb_impl.h"
 

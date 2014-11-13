@@ -42,6 +42,9 @@ sst_dump: tools/sst_dump.o $(LIBOBJECTS)
 ldb: tools/ldb.o $(LIBOBJECTS)
 	$(CXX) tools/ldb.o $(LIBOBJECTS) $(EXEC_LDFLAGS) -o $@ $(LDFLAGS) $(COVERAGEFLAGS)
 
+ben: $(LIBOBJECTS)
+	$(CXX) ../rocksdb_test/main.cpp $(LIBOBJECTS) $(EXEC_LDFLAGS) -o $@ $(LDFLAGS) $(COVERAGEFLAGS)
+
 clean:
 	-rm -f $(PROGRAMS) $(TESTS) $(LIBRARY) $(SHARED) $(MEMENVLIBRARY) build_config.mk unity.cc
 	-find . -name "*.[oda]" -exec rm {} \;
@@ -51,7 +54,7 @@ clean:
 $(LIBRARY): $(LIBOBJECTS)
 	rm -f $@
 	$(AR) -rs $@ $(LIBOBJECTS)
-	
+
 .cc.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(COVERAGEFLAGS)
 
