@@ -20,6 +20,9 @@ build_config.mk
 *.d-e
 *.o-*
 *.swp
+.arcconfig
+.clang-format
+.travis.yml
 
 ldb
 manifest_dump
