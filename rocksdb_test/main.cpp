@@ -109,7 +109,8 @@ int main(int argc, char** argv) {
   assert(s.ok());
   cout << "inserted data" << endl;
 
-  LogFlush(db_options.info_log);
-    
+  db->Compact();
+  cout << perf_context.ToString();
+
   return 0;
 }
