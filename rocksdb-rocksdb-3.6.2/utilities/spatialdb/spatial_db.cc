@@ -27,6 +27,7 @@
 #include "utilities/spatialdb/utils.h"
 #include "util/stop_watch.h"
 
+uint32_t kZoomStart = 4;
 
 namespace rocksdb {
 namespace spatial {
@@ -488,7 +489,7 @@ class SpatialDBImpl : public SpatialDB {
   SpatialDBImpl(
           DB* db, ColumnFamilyHandle* data_column_family,
           const std::vector<std::pair<SpatialIndexOptions, ColumnFamilyHandle*>>& spatial_indexes,
-          uint64_t next_id, bool read_only, uint32_t zoom_levels = 0)
+          uint64_t next_id, bool read_only, uint32_t zoom_levels)
       : SpatialDB(db),
         data_column_family_(data_column_family),
         next_id_(next_id),
@@ -498,8 +499,8 @@ class SpatialDBImpl : public SpatialDB {
       const auto& index = spatial_indexes[i];
 
       if (zoom_levels) {
-        assert(index.first.name == std::to_string(i + 1));
-        assert(index.first.tile_bits == i + 1);
+        assert(index.first.name == std::to_string(i + kZoomStart));
+        assert(index.first.tile_bits == i + kZoomStart);
         if (i > 0) {
           const auto &prev_index = spatial_indexes[i - 1];
           assert(index.first.bbox == prev_index.first.bbox);
@@ -571,7 +572,7 @@ class SpatialDBImpl : public SpatialDB {
     {
       std::cout << "inserting..." << std::endl;
       StopWatch sw_all(env, stats, BEN_GRAN_ALL_PREP);
-      for (uint32_t zoom = 1; zoom <= zoom_levels_; ++zoom) {
+      for (uint32_t zoom = kZoomStart; zoom <= zoom_levels_; ++zoom) {
         StopWatch sw(env, stats, BEN_GRAN_ALL_PREP+zoom);
         const auto &si = spatial_indexes[zoom - 1];
         uint32_t shift = static_cast<uint32_t>(2) * (zoom_levels_ - zoom);
@@ -931,7 +932,7 @@ Status SpatialDB::Create(
           OptimizeOptionsForMetadataColumnFamily(column_family_options, block_cache, ram_disk));
 
   std::vector<SpatialIndexOptions> spatial_indexes;
-  for (uint32_t zoom = 1; zoom <= zoom_levels; ++zoom) {
+  for (uint32_t zoom = kZoomStart; zoom <= zoom_levels; ++zoom) {
     auto index_name = std::to_string(zoom);
     spatial_indexes.emplace_back(index_name, outer_box, zoom);
     column_families.emplace_back(GetSpatialIndexColumnFamilyName(index_name),
@@ -981,7 +982,7 @@ Status SpatialDB::Open(
           OptimizeOptionsForMetadataColumnFamily(column_family_options, block_cache, ram_disk));
 
   std::vector<std::string> spatial_index_names;
-  for (uint32_t zoom = 1; zoom <= zoom_levels; ++zoom) {
+  for (uint32_t zoom = kZoomStart; zoom <= zoom_levels; ++zoom) {
     auto index_name = std::to_string(zoom);
     spatial_index_names.push_back(index_name);
     column_families.emplace_back(GetSpatialIndexColumnFamilyName(index_name),
