@@ -566,7 +566,7 @@ class SpatialDBImpl : public SpatialDB {
     std::vector<size_t> permute(n);
     std::iota(permute.begin(), permute.end(), 0);
     std::sort(permute.begin(), permute.end(),
-            [&](size_t i, size_t j){ return quadkeys[i] > quadkeys[j];});
+            [&](size_t i, size_t j){ return quadkeys[i] < quadkeys[j];});
 
     {
       std::cout << "inserting..." << std::endl;
@@ -811,16 +811,17 @@ ColumnFamilyOptions OptimizeOptionsForSpatialColumnFamily
             NewFixedRangeTransform(range_begin, sizeof(uint64_t)));
 
     size_t bucket_count = std::min(500000UL, 10L * (size_t) pow(4, zoom));
-    size_t huge_page_tlb_size = 0;
-    int bucket_entries_logging_threshold = INT_MAX;
-    bool if_log_bucket_dist_when_flush = true;
-    uint32_t threshold_use_skiplist = INT_MAX;
+//    size_t huge_page_tlb_size = 0;
+//    int bucket_entries_logging_threshold = ;
+//    bool if_log_bucket_dist_when_flush = true;
+//    uint32_t threshold_use_skiplist = INT_MAX;
 
+      options.memtable_factory.reset(new VectorRepFactory(70000000));
 //    options.memtable_factory.reset(NewHashSkipListRepFactory(bucket_count, 12, 4));
-    options.memtable_factory.reset(
-            NewHashLinkListRepFactory(
-                    bucket_count, huge_page_tlb_size, bucket_entries_logging_threshold,
-                    if_log_bucket_dist_when_flush, threshold_use_skiplist));
+//    options.memtable_factory.reset(
+//            NewHashLinkListRepFactory(
+//                    bucket_count, huge_page_tlb_size, bucket_entries_logging_threshold,
+//                    if_log_bucket_dist_when_flush, threshold_use_skiplist));
 
     size_t memtable_budget = 2U * 1024 * 1024 * 1024;
     options.OptimizeUniversalStyleCompaction(memtable_budget);
