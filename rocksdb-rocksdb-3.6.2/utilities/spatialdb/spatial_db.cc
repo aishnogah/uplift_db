@@ -817,7 +817,6 @@ ColumnFamilyOptions OptimizeOptionsForSpatialColumnFamily
 //    uint32_t threshold_use_skiplist = INT_MAX;
 
     options.memtable_factory.reset(NewHashSkipListRepFactory(bucket_count, 12, 4));
-    )
 //    options.memtable_factory.reset(
 //            NewHashLinkListRepFactory(
 //                    bucket_count, huge_page_tlb_size, bucket_entries_logging_threshold,
