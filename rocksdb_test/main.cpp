@@ -4,8 +4,6 @@
 #include <iostream>
 
 #include "rocksdb/db.h"
-#include "rocksdb/slice.h"
-#include "rocksdb/options.h"
 #include "rocksdb/statistics.h"
 #include "rocksdb/perf_context.h"
 #include "rocksdb/utilities/spatial_db.h"
@@ -76,10 +74,7 @@ int main(int argc, char** argv) {
     else {
       exit(1);
     }
-
-
   }
-
 
   DestroyDB(kDBPath, Options());
 

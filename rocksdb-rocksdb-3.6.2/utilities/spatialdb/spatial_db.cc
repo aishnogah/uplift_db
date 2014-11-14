@@ -12,23 +12,17 @@
 #endif
 
 #include <inttypes.h>
-#include <string>
-#include <vector>
 #include <numeric>
-#include <algorithm>
 #include <set>
 #include <unordered_set>
-#include <atomic>
 #include <iostream>
+#include <atomic>
 
 #include "rocksdb/cache.h"
-#include "rocksdb/options.h"
 #include "rocksdb/memtablerep.h"
 #include "rocksdb/slice_transform.h"
 #include "rocksdb/statistics.h"
 #include "rocksdb/table.h"
-#include "rocksdb/db.h"
-#include "rocksdb/utilities/stackable_db.h"
 #include "util/coding.h"
 #include "utilities/spatialdb/utils.h"
 #include "util/stop_watch.h"
@@ -482,6 +476,7 @@ class ErrorCursor : public Cursor {
   FeatureSet trash_;
 };
 
+
 class SpatialDBImpl : public SpatialDB {
  public:
   // * db -- base DB that needs to be forwarded to StackableDB
@@ -744,11 +739,11 @@ ColumnFamilyOptions GetColumnFamilyOptions(std::shared_ptr<Cache> block_cache) {
   ColumnFamilyOptions column_family_options;
   column_family_options.write_buffer_size = 1024 * 1024 * 1024;  // 1GB
   column_family_options.max_write_buffer_number = 4;
-  column_family_options.max_bytes_for_level_base = 256 * 1024 * 1024;  // 256MB
-  column_family_options.target_file_size_base = 64 * 1024 * 1024;      // 64MB
-  column_family_options.level0_file_num_compaction_trigger = 2;
-  column_family_options.level0_slowdown_writes_trigger = 16;
-  column_family_options.level0_slowdown_writes_trigger = 32;
+//  column_family_options.max_bytes_for_level_base = 256 * 1024 * 1024;  // 256MB
+//  column_family_options.target_file_size_base = 64 * 1024 * 1024;      // 64MB
+//  column_family_options.level0_file_num_compaction_trigger = 2;
+//  column_family_options.level0_slowdown_writes_trigger = 16;
+//  column_family_options.level0_slowdown_writes_trigger = 32;
   // only compress levels >= 2
   column_family_options.compression_per_level.resize(
       column_family_options.num_levels);
@@ -797,6 +792,7 @@ public:
   }
 };
 
+
 const SliceTransform* NewFixedRangeTransform(size_t range_begin, size_t range_end) {
   return new FixedRangeTransform(range_begin, range_end);
 }
@@ -814,7 +810,7 @@ ColumnFamilyOptions OptimizeOptionsForSpatialColumnFamily
     options.prefix_extractor.reset(
             NewFixedRangeTransform(range_begin, sizeof(uint64_t)));
 
-    size_t bucket_count = std::min(500000UL, 4UL * zoom);
+    size_t bucket_count = std::min(500000UL, 1000UL * zoom * zoom);
     size_t huge_page_tlb_size = 0;
     int bucket_entries_logging_threshold = INT_MAX;
     bool if_log_bucket_dist_when_flush = true;
