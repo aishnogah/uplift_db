@@ -543,14 +543,14 @@ class SpatialDBImpl : public SpatialDB {
     std::vector<uint64_t> quadkeys(n);
 
     std::vector<IndexColumnFamily> spatial_indexes;
-    for (size_t i=1; i<= zoom_levels_; ++i) {
-      std::string zoom_name = std::to_string(i);
+    for (size_t zoom=kZoomStart; zoom<= zoom_levels_; ++zoom) {
+      std::string zoom_name = std::to_string(zoom);
       auto itr = name_to_index_.find(zoom_name);
       if (itr == name_to_index_.end()) {
         return Status::InvalidArgument("Can't find index zoom level: " + zoom_name);
       }
       const auto& si = itr->second;
-      if (si.index.tile_bits != i) {
+      if (si.index.tile_bits != zoom) {
         std::string tb = std::to_string(si.index.tile_bits);
         return Status::InvalidArgument("index zoom level: " + zoom_name + " has " + tb + " tile bits");
       }
@@ -574,7 +574,7 @@ class SpatialDBImpl : public SpatialDB {
       StopWatch sw_all(env, stats, BEN_GRAN_ALL_PREP);
       for (uint32_t zoom = kZoomStart; zoom <= zoom_levels_; ++zoom) {
         StopWatch sw(env, stats, BEN_GRAN_ALL_PREP+zoom);
-        const auto &si = spatial_indexes[zoom - 1];
+        const auto &si = spatial_indexes[zoom - kZoomStart];
         uint32_t shift = static_cast<uint32_t>(2) * (zoom_levels_ - zoom);
         for (size_t i = 0; i < n; ++i) {
           size_t j = permute[i];
