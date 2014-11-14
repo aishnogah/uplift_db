@@ -566,7 +566,7 @@ class SpatialDBImpl : public SpatialDB {
     std::vector<size_t> permute(n);
     std::iota(permute.begin(), permute.end(), 0);
     std::sort(permute.begin(), permute.end(),
-            [&](size_t i, size_t j){ return quadkeys[i] < quadkeys[j];});
+            [&](size_t i, size_t j){ return quadkeys[i] > quadkeys[j];});
 
     {
       std::cout << "inserting..." << std::endl;
