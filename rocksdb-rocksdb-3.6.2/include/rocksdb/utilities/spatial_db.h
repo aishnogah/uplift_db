@@ -252,6 +252,7 @@ class SpatialDB : public StackableDB {
   virtual Cursor* Query(const ReadOptions& read_options,
                         const BoundingBox<double>& bbox,
                         const std::string& spatial_index) = 0;
+
 };
 
 }  // namespace spatial

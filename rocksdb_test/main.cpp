@@ -108,6 +108,11 @@ int main(int argc, char** argv) {
   s = db->BulkInsert(write_options, data, blobs, feature_sets);
   assert(s.ok());
   cout << "inserted data" << endl;
+
+  auto dbstats = db_options.statistics.get();
+  if (dbstats) {
+    Log(db_options.info_log, "STATISTCS:\n %s", dbstats->ToString().c_str());
+  }
 //  db->Compact();
     
   return 0;
