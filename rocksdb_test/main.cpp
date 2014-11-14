@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
   s = db->BulkInsert(write_options, data, blobs, feature_sets);
   assert(s.ok());
   cout << "inserted data" << endl;
-  db->Compact();
+//  db->Compact();
     
   return 0;
 }
