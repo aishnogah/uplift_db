@@ -109,9 +109,7 @@ int main(int argc, char** argv) {
   assert(s.ok());
   cout << "inserted data" << endl;
 
-  auto dbstats = db_options.statistics.get();
-  printf("STATISTCS:\n %s", dbstats->ToString().c_str());
-//  db->Compact();
+  LogFlush(db_options.info_log);
     
   return 0;
 }
