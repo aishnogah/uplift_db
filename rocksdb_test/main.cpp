@@ -110,9 +110,7 @@ int main(int argc, char** argv) {
   cout << "inserted data" << endl;
 
   auto dbstats = db_options.statistics.get();
-  if (dbstats) {
-    Log(db_options.info_log, "STATISTCS:\n %s", dbstats->ToString().c_str());
-  }
+  printf("STATISTCS:\n %s", dbstats->ToString().c_str());
 //  db->Compact();
     
   return 0;
