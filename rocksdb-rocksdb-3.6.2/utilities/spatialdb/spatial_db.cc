@@ -810,7 +810,7 @@ ColumnFamilyOptions OptimizeOptionsForSpatialColumnFamily
     options.prefix_extractor.reset(
             NewFixedRangeTransform(range_begin, sizeof(uint64_t)));
 
-    size_t bucket_count = std::min(500000UL, 10L * (size_t) pow(4, zoom));
+//    size_t bucket_count = std::min(500000UL, 10L * (size_t) pow(4, zoom));
 //    size_t huge_page_tlb_size = 0;
 //    int bucket_entries_logging_threshold = ;
 //    bool if_log_bucket_dist_when_flush = true;
